@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Solver - By C124 Studios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <link th:href="@{/styles/styles.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="logo-container">
+                <a href="/">
+                    <img th:src="@{/images/c124-studios-logo.svg}" alt="Maze Solver App Logo">
+                </a>
+                <h1>Maze Solver</h1>
+            </div>
+            <div class="links-container">
+                <a href="https://github.com/Steven-Leon-007" target="_blank">
+                    <img th:src="@{/images/github-mark-white.png}" alt="Follow Steven's Github Profile"
+                        title="Follow Steven's Github Profile" />
+                </a>
+                <a href="https://github.com/Diegosch1" target="_blank">
+                    <img th:src="@{/images/github-mark-white.png}" alt="Follow Diego's Github Profile"
+                        title="Follow Diego's Github Profile" />
+                </a>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="main-container">
+            <div class="left-side-container">
+                <div class="info-content">
+                    <p>A maze solver service based on TXT files with prefixed markup syntax that follow this rules:</p>
+                    <br>
+                    <ul>
+                        <li>X -> A wall in the maze</li>
+                        <li>[] -> A empty space to go through</li>
+                        <li>S -> The start position of the maze</li>
+                        <li>F -> The finish position of the maze</li>
+                    </ul>
+                </div>
+
+                <div class="load-container">
+                    <form action="#" th:action="@{/load}" enctype="multipart/form-data" method="POST">
+                        <input type="file" name="file" accept=".txt" />
+                        <button type="submit">Cargar laberinto</button>
+                    </form>
+                    <div th:if="${maze == null}" class="maze-container-img">
+                        <img th:src="@{/images/maze-placeholder.png}" alt="maze not uploaded yet">
+                    </div>
+                    <div th:if="${maze != null}" class="maze-container maze-preview">
+                        <div th:each="row : ${maze}" class="maze-rows">
+                            <div th:each="section : ${row}"
+                                th:class="'section-' + ${section.type.toString().toLowerCase()}">
+                            </div>
+                        </div>
+                        <form action="#" th:action="@{/load}" enctype="multipart/form-data" method="POST">
+                            <!--Modify the method here-->
+                            <button type="submit" class="solve-button">Solucionar</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="right-side-container">
+                <div th:if="${maze != null}" class="maze-container" id="main-maze">
+                    <div th:each="row : ${maze}" class="maze-rows main-rows">
+                        <div th:each="section : ${row}"
+                            th:class="'section-' + ${section.type.toString().toLowerCase()}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 - Maze Solver. All rights reserved.</p>
+            <p>Developed with ❤️ by C124 Studios</p>
+        </div>
+    </footer>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var mainContainer = document.getElementById("main-maze");
+        var mazeRows = document.querySelectorAll('.main-rows');
+
+        mazeRows.forEach(function (row) {
+            var sections = row.querySelectorAll('div');
+
+            let sectionWidth = (mainContainer.offsetWidth * 0.45) / sections.length;
+
+            sections.forEach((section) => {
+                section.style.width = sectionWidth + 'px';
+                section.style.height = sectionWidth + 'px';    
+            })
+        });
+        /*]]>*/
+    </script>
+</body>
+
+</html>

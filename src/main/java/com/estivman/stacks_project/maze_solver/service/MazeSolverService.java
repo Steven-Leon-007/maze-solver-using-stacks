@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.estivman.stacks_project.maze_solver.model.MazeSection;
 import com.estivman.stacks_project.maze_solver.model.SectionType;
@@ -23,8 +24,12 @@ public class MazeSolverService {
         this.fileLoaderUtils = new FileLoaderUtils();
     }
 
-    public MazeSection[][] loadMaze(String path) throws IOException {
-        List<String> lines = fileLoaderUtils.loadMazeFromFile(path);
+    public MazeSection[][] loadMaze(MultipartFile fileUploaded) throws IOException {
+
+        List<String> lines = fileLoaderUtils.processFile(fileUploaded);
+        if (lines == null) {
+            return null;
+        }
         int rows = lines.size();
         int cols = lines.get(0).length();
         maze = new MazeSection[rows][cols];
@@ -68,11 +73,14 @@ public class MazeSolverService {
         }
 
         for (MazeSection section : stackMaze) {
-            section.setType(SectionType.SOLUTION);
+            if (section.getType() == SectionType.EMPTY_SPACE) {
+                section.setType(SectionType.SOLUTION);
+            }
         }
 
         return stackMaze;
     }
+
 
     private MazeSection findMazeStart() {
 
@@ -101,7 +109,7 @@ public class MazeSolverService {
                 return new MazeSection(row, col, SectionType.FINISH, false);
 
             default:
-                throw new IllegalArgumentException("Character unknown: " + character);
+                throw new IllegalArgumentException("Character invalid: " + character);
         }
     }
 
@@ -114,7 +122,7 @@ public class MazeSolverService {
         int[] possibleMovesCols = { 0, -1, 1, 0 };
 
         for (int i = 0; i < possibleMovesCols.length; i++) {
-            
+
             int newRow = row + possibleMovesRows[i];
             int newCol = col + possibleMovesCols[i];
 
