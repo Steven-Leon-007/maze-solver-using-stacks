@@ -44,7 +44,7 @@ public class MazeSolverService {
         return maze;
     }
 
-    public Stack<MazeSection> solveMaze() {
+    public MazeSection[][] solveMaze() {
         stackMaze = new Stack<>();
         stackMaze.push(this.findMazeStart());
 
@@ -77,10 +77,21 @@ public class MazeSolverService {
                 section.setType(SectionType.SOLUTION);
             }
         }
-
-        return stackMaze;
+        showPathSolved(stackMaze);
+        return maze;
     }
 
+    private void showPathSolved(Stack<MazeSection> solution) {
+        while (!solution.isEmpty()) {
+            MazeSection pathSolved = solution.pop();
+            int targetRow = pathSolved.getRow();
+            int targetCol = pathSolved.getColumn();
+
+            if (targetRow >= 0 && targetRow < maze.length && targetCol >= 0 && targetCol < maze[targetRow].length) {
+                maze[targetRow][targetCol] = pathSolved;
+            }
+        }
+    }
 
     private MazeSection findMazeStart() {
 

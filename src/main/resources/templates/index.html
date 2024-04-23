@@ -52,7 +52,7 @@
 
                 <div class="load-container">
                     <form action="#" th:action="@{/load}" enctype="multipart/form-data" method="POST">
-                        <input type="file" name="file" accept=".txt" />
+                        <input type="file" name="file" accept=".txt" required/>
                         <button type="submit">Cargar laberinto</button>
                     </form>
                     <div th:if="${maze == null}" class="maze-container-img">
@@ -64,8 +64,7 @@
                                 th:class="'section-' + ${section.type.toString().toLowerCase()}">
                             </div>
                         </div>
-                        <form action="#" th:action="@{/load}" enctype="multipart/form-data" method="POST">
-                            <!--Modify the method here-->
+                        <form action="#" th:action="@{/solve}" method="GET">
                             <button type="submit" class="solve-button">Solucionar</button>
                         </form>
                     </div>

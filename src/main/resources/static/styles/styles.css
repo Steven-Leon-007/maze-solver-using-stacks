@@ -5,7 +5,7 @@
 }
 
 body {
-    background: #ccc;
+    background: #1d1d1b;
 }
 
 p,
@@ -147,8 +147,6 @@ form button:hover {
     background-color: #966813;
 }
 
-/*Styles of the maze itself*/
-
 .right-side-container {
     width: 100%;
     display: flex;
@@ -174,8 +172,6 @@ form button:hover {
 
 .maze-container .maze-rows div {
     border: 1px solid #e4e4e41b;
-    /* width: 4rem;
-    height: 4rem; */
 }
 
 .maze-preview .maze-rows div {
@@ -187,12 +183,12 @@ form button:hover {
     background-color: #923232;
 }
 
-.section-start {
-    background-color: #3d9b47;
+.section-finish, .section-start{
+    background-color: #1c6824;
 }
 
 .section-solution{
-    background-color: #2fb85a;
+    background-color: #3d9b47;
 }
 
 .section-start::before{
@@ -205,9 +201,6 @@ form button:hover {
     font-size: 1.5rem;
 }
 
-.section-finish{
-    background-color: #1c6824;
-}
 
 .section-finish::before{
     content: "F";
