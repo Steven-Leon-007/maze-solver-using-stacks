@@ -3,7 +3,6 @@ package com.estivman.stacks_project.maze_solver.controller;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,7 @@ public class MazeSolverController {
     }
 
     @PostMapping("/load")
-    public String loadMaze(Model model, @RequestParam("file") MultipartFile fileUploaded) throws IOException {
+    public String loadMaze(@RequestParam("file") MultipartFile fileUploaded) throws IOException {
         try {
             maze = mazeSolverService.loadMaze(fileUploaded);
             return "redirect:/";
